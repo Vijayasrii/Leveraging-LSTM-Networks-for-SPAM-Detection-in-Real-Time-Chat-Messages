@@ -1,0 +1,224 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registered Users</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<style>
+    /* Keep existing styles from your container */
+    .container {
+        max-width: 1200px;
+        padding: 48px;
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 16px 64px rgba(0, 0, 0, 0.15);
+        animation: fadeIn 1s ease-out;
+        margin: 120px auto 40px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: linear-gradient(90deg, #3b82f6, #10b981);
+        border-radius: 20px 20px 0 0;
+    }
+
+    /* Updated table styling */
+    .table-container {
+        margin-top: 40px;
+    }
+
+    .table-custom {
+        width: 100%;
+        border-collapse: collapse;
+        background: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .table-custom thead {
+        background-color: #3b82f6;
+        color: #ffffff;
+    }
+
+    .table-custom th, .table-custom td {
+        padding: 16px 20px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .table-custom tbody tr:nth-child(even) {
+        background-color: #f9fafb;
+    }
+
+    .table-custom tbody tr:hover {
+        background-color: #eef2ff;
+        transition: 0.3s;
+    }
+
+    .btn-success, .btn-danger {
+        padding: 6px 14px;
+        font-size: 14px;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-success:hover {
+        background-color: #059669 !important;
+    }
+
+    .btn-danger:hover {
+        background-color: #dc2626 !important;
+    }
+
+    .header-text {
+        text-align: center;
+        padding: 24px 0;
+    }
+
+    .header-text h6 {
+        color: #1f2937;
+        font-size: 20px;
+        font-weight: 500;
+        margin-bottom: 16px;
+    }
+
+    .header-text h6 span {
+        color: #3b82f6;
+        font-weight: 700;
+    }
+
+    .header-text h4 {
+        color: #1f2937;
+        font-size: 40px;
+        font-weight: 800;
+        margin-bottom: 12px;
+    }
+
+    .subtitle {
+        color: #4b5563;
+        font-size: 16px;
+        font-weight: 400;
+        margin-bottom: 24px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 24px;
+    }
+
+    .btn {
+        padding: 12px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .primary-btn {
+        background: #3b82f6;
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .primary-btn:hover {
+        background: #2563eb;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+    }
+
+    .secondary-btn {
+        background: #e5e7eb;
+        color: #1f2937;
+        border: 1px solid #d1d5db;
+    }
+
+    .secondary-btn:hover {
+        background: #d1d5db;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+</style>
+<body>
+    
+    <div class="container">
+        <div class="header-text">
+            <h6>Welcome Back, <span><b>Admin</b></span></h6>
+            <h4>Explore Our <em>Latest Projects</em> & Insights</h4>
+            <p class="subtitle">Manage, monitor, and elevate your projects with ease.</p>
+            <div class="action-buttons">
+                <a href="{% url 'admin-home' %}" class="btn primary-btn">Home</a>
+                <a href="{% url 'view-users' %}" class="btn secondary-btn">User-List</a>
+                <a href="{% url 'index' %}" class="btn secondary-btn">Logout</a>
+            </div>
+        </div>
+
+        <!-- Updated Table Section -->
+        <div class="table-container">
+            <h4 style="text-align: center; color: #1f2937; margin-bottom: 20px;"><em>Registered</em> Users</h4>
+            <div class="table-responsive">
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <!-- <th>Email</th> -->
+                            <!-- <th>Address</th> -->
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.username }}</td>
+                            <!-- <td>{{ user.email }}</td> -->
+                            <!-- <td>{{ user.address }}</td> -->
+                            <td>
+                                {% if user.is_active %}
+                                    <span style="color: green;">Activated</span>
+                                {% else %}
+                                    <span style="color: red;">Inactive</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if user.is_active %}
+                                    <a href="{% url 'user-deactivate' user.pk %}" class="btn btn-danger">Deactivate</a>
+                                {% else %}
+                                    <a href="{% url 'user-activate' user.pk %}" class="btn btn-success">Activate</a>
+                                {% endif %}
+                                <a href="{% url 'user-delete' user.pk %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

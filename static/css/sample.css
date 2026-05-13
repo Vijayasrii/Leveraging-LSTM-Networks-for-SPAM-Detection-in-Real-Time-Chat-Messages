@@ -1,0 +1,33 @@
+
+  .h1{
+    color:crimson;
+    text-align: center;
+  }
+  p{
+    color:blue;
+    text-align: center;
+    height: fit-content;
+  }
+
+
+  #label{
+    text-align: center;
+  }
+
+  .margin{
+    margin-top:15%;
+  }
+
+  .uname{
+    font-size:larger;
+    font-family: Arial, Helvetica, sans-serif;
+    color:rgb(231, 12, 12);
+    font-weight: bold;
+
+  }
+
+  .room {
+    background-image: url("{% static 'images/image1.jpg' %}");
+    background-repeat: no-repeat;
+    background-size: cover;
+}

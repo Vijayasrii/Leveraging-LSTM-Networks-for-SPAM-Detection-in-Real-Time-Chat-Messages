@@ -1,0 +1,200 @@
+{% load static %}
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background-color: #1f2937;
+      overflow: hidden;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .navbar a {
+      color: #f9fafb;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    .navbar a:hover {
+      background-color: #374151;
+    }
+
+    h2 {
+      text-align: center;
+      padding: 20px 0;
+      color: #111827;
+    }
+
+    #display {
+      max-width: 700px;
+      margin: auto;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      height: 400px;
+      overflow-y: auto;
+    }
+
+    .chat-bubble {
+      padding: 12px 16px;
+      margin: 10px 0;
+      border-radius: 16px;
+      max-width: 75%;
+      clear: both;
+      position: relative;
+      word-wrap: break-word;
+      font-size: 15px;
+    }
+
+    .chat-left {
+      background-color: #e5e7eb;
+      color: #111827;
+      float: left;
+      border-bottom-left-radius: 0;
+    }
+
+    .chat-right {
+      background-color: #3b82f6;
+      color: white;
+      float: right;
+      border-bottom-right-radius: 0;
+    }
+
+    .timestamp {
+      font-size: 12px;
+      margin-top: 4px;
+      color: #6b7280;
+      display: block;
+    }
+
+    .chat-warning {
+      color: red;
+      font-weight: bold;
+    }
+
+    .form-container {
+      max-width: 700px;
+      margin: 20px auto;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type=text] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      font-size: 15px;
+    }
+
+    input[type=submit] {
+      width: 100%;
+      background-color: #10b981;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type=submit]:hover {
+      background-color: #059669;
+    }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="navbar">
+    <a href="{% url 'home' %}">Change Room</a>
+    <a href="{% url 'index' %}">Logout</a>
+  </div>
+
+  <h2>Room : {{room}}</h2>
+
+  <div id="display"></div>
+
+  <div class="form-container">
+    <form id="post-form">
+      {% csrf_token %}
+      <input type="hidden" name="username" id="username" value="{{username}}" />
+      <input type="hidden" name="room_id" id="room_id" value="{{room_details.id}}" />
+      <input type="text" name="message" id="message" placeholder="Type your message here..." required />
+      <input type="submit" value="Send">
+    </form>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      setInterval(function () {
+        $.ajax({
+          type: 'GET',
+          url: "/getMessages/{{room}}/",
+          success: function (response_data) {
+            $("#display").empty();
+            for (var key in response_data.messages) {
+              var message = response_data.messages[key];
+              var isSelf = message.user === "{{username}}";
+              var bubbleClass = isSelf ? "chat-right" : "chat-left";
+
+              var content = "<div class='chat-bubble " + bubbleClass + "'>";
+              content += "<strong>" + message.user + "</strong><br>";
+
+              if (message.classification === 'offensive') {
+                content += "<span class='chat-warning'>Warning: Offensive content</span><br>";
+                content += message.censored_value;
+              } else {
+                content += message.value;
+              }
+
+              content += "<span class='timestamp'>" + message.date + "</span></div>";
+              $("#display").append(content);
+            }
+            $('#display').scrollTop($('#display')[0].scrollHeight);
+          },
+          error: function () {
+            alert('An error occurred while fetching messages.');
+          }
+        });
+      }, 1000);
+    });
+
+    $(document).on('submit', '#post-form', function (e) {
+      e.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url: '/send',
+        data: {
+          username: $('#username').val(),
+          room_id: $('#room_id').val(),
+          message: $('#message').val(),
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function () {
+          $('#message').val('');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    .container {
+        max-width: 1200px;
+        padding: 48px;
+        background: linear-gradient(145deg, #2b3a6a, #162f49);
+        
+        border-radius: 20px;
+        box-shadow: 0 16px 64px rgba(0, 0, 0, 0.15);
+        animation: fadeIn 1s ease-out;
+        margin: 120px auto 40px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: linear-gradient(90deg, #3b82f6, #10b981);
+        border-radius: 20px 20px 0 0;
+    }
+
+    .header-text {
+        text-align: center;
+        padding: 24px 0;
+    }
+
+    .header-text h6 {
+        color: #ffffff;
+        font-size: 20px;
+        font-weight: 500;
+        margin-bottom: 16px;
+        letter-spacing: 0.5px;
+    }
+
+    .header-text h6 span {
+        color: #3b82f6;
+        font-weight: 700;
+    }
+
+    .header-text h4 {
+        color: #ffffff;
+        font-size: 40px;
+        font-weight: 800;
+        margin-bottom: 12px;
+        line-height: 1.2;
+    }
+
+    .header-text h4 em {
+        color: #10b981;
+        font-style: normal;
+    }
+
+    .subtitle {
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 400;
+        margin-bottom: 24px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 24px;
+    }
+
+    .btn {
+        padding: 12px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .primary-btn {
+        background: #3b82f6;
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .primary-btn:hover {
+        background: #2563eb;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+    }
+
+    .secondary-btn {
+        background: #e5e7eb;
+        color: #1f2937;
+        border: 1px solid #d1d5db;
+    }
+
+    .secondary-btn:hover {
+        background: #d1d5db;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .quick-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 40px;
+    }
+
+    .stat-card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .stat-icon {
+        width: 32px;
+        height: 32px;
+        color: #3b82f6;
+        margin-bottom: 12px;
+    }
+
+    .stat-card h5 {
+        color: #1f2937;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .stat-card p {
+        color: #10b981;
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            margin: 90px 16px;
+            padding: 32px;
+        }
+
+        .header-text h4 {
+            font-size: 32px;
+        }
+
+        .header-text h6 {
+            font-size: 18px;
+        }
+
+        .subtitle {
+            font-size: 15px;
+        }
+
+        .quick-stats {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .container {
+            padding: 24px;
+        }
+
+        .header-text h4 {
+            font-size: 28px;
+        }
+
+        .header-text h6 {
+            font-size: 16px;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+    }
+</style>
+
+<body>
+
+
+    <div class="container">
+        <div class="header-text">
+            <h6>Welcome , <span><b>Admin</b></span></h6>
+            <h4>Explore Our <em>Latest Projects</em> & Insights</h4>
+            <p class="subtitle">Manage, monitor, and elevate your projects with ease.</p>
+            <div class="action-buttons">
+                <a href="{% url 'admin-home' %}" class="btn primary-btn">Home</a>
+                <a href="{% url 'view-users' %}" class="btn secondary-btn">User-List</a>
+                <a href="{% url 'index' %}" class="btn secondary-btn">logout</a>
+
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+</body>
+
+</html>

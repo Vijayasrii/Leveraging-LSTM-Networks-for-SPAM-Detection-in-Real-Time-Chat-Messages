@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chatroom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+
+    /* Background image */
+    background-image: url("{% static 'images/image2.jpg' %}");
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    /* Gradient overlay (keep it if you want mix) */
+    
+
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      padding: 10px 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 20px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      border-radius: 5px;
+      margin: 0 10px;
+    }
+
+    .navbar a:hover {
+      background-color: #00ddeb;
+      color: #000;
+      transform: translateY(-2px);
+    }
+
+    /* ===== FORM CONTAINER ===== */
+    .main-content {
+      margin: 100px auto;
+      max-width: 450px;
+      width: 90%;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      color: #222;
+      font-size: 28px;
+      margin-bottom: 30px;
+      font-weight: 600;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin-bottom: 10px;
+      color: #333;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+      background: #f9f9f9;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #6e8efb;
+      background: #fff;
+      box-shadow: 0 0 5px rgba(110, 142, 251, 0.3);
+    }
+
+    input[type="submit"] {
+      width: 100%;
+      background: linear-gradient(90deg, #6e8efb, #a777e3);
+      color: #fff;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input[type="submit"]:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(110, 142, 251, 0.4);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      .navbar a {
+        padding: 10px 15px;
+        font-size: 14px;
+      }
+
+      .main-content {
+        padding: 20px;
+        margin-top: 80px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== NAVBAR ===== -->
+  <div class="navbar">
+    <a href="{%url 'index'%}">Logout</a>
+  
+  </div>
+
+  {% block content %}
+  <div class="main-content">
+    <h2>Welcome to Chatroom</h2>
+    <form id="post-form" method="POST" action="checkview">
+      {% csrf_token %}
+      <label for="room_name">Room Name:</label>
+      <input type="text" name="room_name" id="room_name" placeholder="Enter room name" required>
+
+      <label for="username">Username:</label>
+      <input type="text" name="username" id="username" placeholder="Enter your username" required>
+
+      <input type="submit" value="Enter Room">
+    </form>
+  </div>
+  {% endblock %}
+</body>
+</html>
